@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hisaab — household money memory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="logo">₹</span>
+      <div>
+        <h1>Hisaab</h1>
+        <p class="tag">Alexa+ add-on · remembers every rupee your household forgets</p>
+      </div>
+    </div>
+    <div class="controls">
+      <span id="mode" class="chip helpers">Helpers</span>
+      <label>Language
+        <select id="lang">
+          <option value="en">English</option>
+          <option value="hi">हिंदी</option>
+          <option value="ta">தமிழ்</option>
+        </select>
+      </label>
+      <label>Demo date
+        <input id="demoDate" type="date">
+      </label>
+      <span id="status" class="status">connecting…</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="assistant">
+      <div id="chat" class="chat" aria-live="polite"></div>
+
+      <div class="examples" id="examples"></div>
+
+      <form id="form" class="inputbar">
+        <button id="mic" type="button" class="mic" title="Speak" aria-label="Speak">
+          <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V22h2v-3.08A7 7 0 0 0 19 12h-2Z"/></svg>
+        </button>
+        <input id="text" type="text" autocomplete="off" placeholder="Type or tap the mic: “Shanti didi aaj nahi aayi”">
+        <button type="submit" class="send">Send</button>
+      </form>
+    </section>
+
+    <aside class="panel">
+      <div class="panel-head">
+        <h2>MCP calls</h2>
+        <button id="clearPanel" type="button" class="ghost">Clear</button>
+      </div>
+      <ol id="log" class="log"></ol>
+    </aside>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
