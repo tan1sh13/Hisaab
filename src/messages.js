@@ -1,10 +1,7 @@
-// WhatsApp-ready bill text for one helper.
-// The closing line comes from lang.js SAY templates, so Hindi/Tamil users get a
-// spoken-style sentence in their language; the line items stay short and factual.
+// WhatsApp-ready bill text for one helper. The closing line comes from the lang.js SAY templates.
 
-import { LANGS, say } from './lang.js';
+import { say } from './lang.js';
 
-const LOCALE = LANGS;
 const money = (value) => {
   const n = Math.round(Number(value) || 0);
   return `₹${new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(n)}`;
@@ -25,7 +22,6 @@ export function monthLabel(month, locale = 'en-IN') {
 
 export function whatsappText(bill, lang = 'en') {
   if (!bill) return '';
-  const locale = LOCALE[lang] ?? LOCALE.en;
   const name = bill.helperName ?? 'helper';
   const lines = (bill.lines ?? [])
     .filter((line) => Math.round((Number(line?.amount) || 0) * 100) !== 0)
@@ -33,7 +29,7 @@ export function whatsappText(bill, lang = 'en') {
 
   return [
     `🧾 *Hisaab* — ${name}`,
-    monthLabel(bill.month, locale),
+    monthLabel(bill.month),
     '',
     ...(lines.length ? lines : ['• No entries yet']),
     '',

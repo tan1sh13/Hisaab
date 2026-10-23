@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hisaab — household money memory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="logo">₹</span>
+      <h1>Hisaab</h1>
+      <span id="today" class="today" title="The date Hisaab uses as today (change it in Under the hood)"></span>
+    </div>
+    <button id="hoodBtn" type="button" class="ghost" aria-expanded="false" aria-controls="hood">
+      <span id="status" class="dot" title="connecting…"></span> Under the hood
+    </button>
+  </header>
+
+  <main id="chat" class="chat" aria-live="polite">
+    <section id="welcome" class="welcome">
+      <h2>Hello! <span class="grad">What should I remember?</span></h2>
+      <p>Tell me who came, who didn’t, or what you bought — or ask me anything about your household money.</p>
+      <div id="examples" class="examples"></div>
+    </section>
+  </main>
+
+  <form id="form" class="composer">
+    <div class="field">
+      <input id="text" type="text" autocomplete="off" placeholder="Say “Hey San”, or type… “Shanti did not come today”">
+      <button id="mic" type="button" class="mic" aria-label="Speak">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V22h2v-3.08A7 7 0 0 0 19 12h-2Z"/></svg>
+      </button>
+      <button type="submit" class="send" aria-label="Send">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"/></svg>
+      </button>
+    </div>
+    <p id="hint" class="hint">Tap the mic and speak, or type and press Enter</p>
+  </form>
+
+  <aside id="hood" class="hood" hidden>
+    <div class="hood-head">
+      <h2>Under the hood</h2>
+      <button id="hoodClose" type="button" class="ghost" aria-label="Close">✕</button>
+    </div>
+    <div class="hood-controls">
+      <label>Today is <input id="demoDate" type="date"></label>
+      <label>Voice
+        <select id="voiceMode">
+          <option value="indian">Indian accent (free, unlimited)</option>
+          <option value="gemini">Gemini (free, only a few a day)</option>
+        </select>
+      </label>
+      <span id="statusText" class="status">connecting…</span>
+      <span id="voiceName" class="status">Voice: not used yet</span>
+    </div>
+    <div class="panel-head">
+      <h3>MCP calls</h3>
+      <button id="clearPanel" type="button" class="ghost">Clear</button>
+    </div>
+    <ol id="log" class="log"></ol>
+  </aside>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

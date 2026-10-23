@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { computeBill } from '../src/bill.js';
 
 const monthly = {
-  id: 'shanti', name: 'Shanti didi', role: 'maid',
+  id: 'shanti', name: 'Shanti', role: 'maid',
   rateType: 'monthly', rate: 3100, paidLeaves: 1
 };
 const perUnit = {
@@ -28,7 +28,7 @@ test('monthly: base + unpaid absence + extra day + advance', () => {
   ];
   const bill = computeBill(monthly, events, '2026-09', '2026-09-30');
 
-  assert.equal(bill.helperName, 'Shanti didi');
+  assert.equal(bill.helperName, 'Shanti');
   assert.equal(bill.total, 2700);
   assert.equal(bill.lines.length, 4);
   assert.equal(bill.lines[0].amount, 3100);

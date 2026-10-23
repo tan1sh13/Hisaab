@@ -5,7 +5,7 @@ import { monthLabel, whatsappText } from '../src/messages.js';
 
 const bill = {
   helperId: 'shanti',
-  helperName: 'Shanti didi',
+  helperName: 'Shanti',
   month: '2026-09',
   rateType: 'monthly',
   lines: [
@@ -18,19 +18,12 @@ const bill = {
 
 test('whatsappText: English message has items, total and the SAY bill line', () => {
   const text = whatsappText(bill, 'en');
-  assert.match(text, /Shanti didi/);
+  assert.match(text, /Shanti/);
   assert.match(text, /September 2026/);
   assert.match(text, /Monthly rate: ₹3,100/);
   assert.match(text, /−₹103/);
   assert.match(text, /Total: ₹2,700/);
-  assert.match(text, /You owe Shanti didi ₹2700 this month\./); // SAY template has no thousands separator
-});
-
-test('whatsappText: Hindi and Tamil use their SAY templates', () => {
-  assert.match(whatsappText(bill, 'hi'), /देना है/);
-  assert.match(whatsappText(bill, 'hi'), /₹2,700/);
-  assert.match(whatsappText(bill, 'ta'), /கொடுக்க வேண்டும்/);
-  assert.match(whatsappText(bill, 'ta'), /₹2,700/);
+  assert.match(text, /You owe Shanti ₹2700 this month\./); // SAY template has no thousands separator
 });
 
 test('monthLabel is stable across time zones', () => {

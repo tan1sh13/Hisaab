@@ -1,8 +1,9 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
 import { load, save, nextId } from './store.js';
-import { say } from './lang.js';
+import { say, whenText } from './lang.js';
 import * as stubs from './stubs.js';
+import { answerQuestion } from './ask.js';
 
 // Use Ritu's real module when its file exists; otherwise the stub. No edits needed when hers land.
 async function optional(file) {
@@ -18,7 +19,7 @@ const logic = Object.assign({}, stubs, ...mods);
 const { todayIST, computeBill, checkPrice, priceReport, whatsappText, understand } = logic;
 
 // ---- shared schema pieces -------------------------------------------------
-const Lang = z.enum(['en', 'hi', 'ta']).optional();
+const Lang = z.enum(['en']).optional(); // English only
 const DateStr = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'use YYYY-MM-DD').optional();
 const Month = z.string().regex(/^\d{4}-\d{2}$/, 'use YYYY-MM');
 const EventType = z.enum(['absent', 'extra', 'less', 'advance', 'visit']);
@@ -42,6 +43,9 @@ function findHelper(data, query) {
   return found;
 }
 
+// "dermic kumar" -> "Dermic Kumar"
+const titleCase = (s) => String(s).trim().replace(/\s+/g, ' ').replace(/\b\p{L}/gu, (c) => c.toUpperCase());
+
 function slug(s) {
   return norm(s).normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'helper';
 }
@@ -64,7 +68,7 @@ export function buildServer() {
 
   // 1. understand ------------------------------------------------------------
   tool('understand', 'Understand what the user said',
-    'Turns an English/Hindi/Tamil/Hinglish sentence into an intent and arguments for another Hisaab tool.',
+    'Turns an English sentence into an intent and arguments for another Hisaab tool.',
     { text: z.string().min(1), date: DateStr },
     async ({ text, date, lang }) => {
       const r = await understand(text, date ?? todayIST(), lang ?? 'en');
@@ -74,15 +78,16 @@ export function buildServer() {
 
   // 2. add_helper ------------------------------------------------------------
   tool('add_helper', 'Add a helper',
-    'Adds a household helper (maid, cook, milkman, newspaper, dhobi) with a pay rate.',
+    'Adds a household helper (maid, cook, milkman, newspaper, laundry) with a pay rate.',
     {
-      name: z.string().min(1), role: z.string().min(1),
-      rateType: z.enum(['monthly', 'per_unit', 'per_visit']), rate: z.number().positive(),
+      name: z.string().min(1), role: z.string().optional(),
+      rateType: z.enum(['monthly', 'per_unit', 'per_visit']).optional(), rate: z.number().positive(),
       unit: z.string().optional(), paidLeaves: z.number().min(0).optional(),
       defaultQtyPerDay: z.number().positive().optional()
     },
-    ({ name, role, rateType, rate, unit, paidLeaves, defaultQtyPerDay }, lang) => {
+    ({ name, role = 'helper', rateType = 'monthly', rate, unit, paidLeaves, defaultQtyPerDay }, lang) => {
       const data = load();
+      name = titleCase(name);
       let id = slug(name.split(/\s+/)[0]);
       if (data.helpers.some((h) => h.id === id)) id = `${id}-${data.helpers.length + 1}`;
       const helper = {
@@ -91,8 +96,9 @@ export function buildServer() {
         paidLeaves: paidLeaves ?? 0, defaultQtyPerDay: defaultQtyPerDay ?? null
       };
       data.helpers.push(helper);
+      data.lastAdded = { kind: 'helper', id: helper.id };
       save(data);
-      return { helper, say: say(lang, 'helperAdded', { name: helper.name }) };
+      return { helper, say: say(lang, 'helperAdded', { name: helper.name, role: helper.role, rate, rateType, unit: helper.unit }) };
     });
 
   // 3. log_helper_event ------------------------------------------------------
@@ -101,13 +107,20 @@ export function buildServer() {
     {
       helper: z.string().min(1), type: EventType,
       qty: z.number().positive().optional(), amount: z.number().positive().optional(),
-      date: DateStr, raw: z.string().optional()
+      date: DateStr, today: DateStr, raw: z.string().optional()
     },
-    ({ helper, type, qty, amount, date, raw }, lang) => {
+    ({ helper, type, qty, amount, date, today, raw }, lang) => {
       const data = load();
       const h = findHelper(data, helper);
       if ((type === 'extra' || type === 'less') && qty == null) throw new UserError(`${type} needs qty`);
       if (type === 'advance' && amount == null) throw new UserError('advance needs amount');
+      const day = date ?? todayIST();
+      const when = whenText(day, today ?? todayIST());
+      // Someone can only be absent once a day: saying it twice must not cut two days' pay.
+      const already = type === 'absent' && data.events.find((e) => e.helperId === h.id && e.type === 'absent' && e.date === day);
+      if (already) {
+        return { event: already, helperName: h.name, duplicate: true, say: say(lang, 'alreadyAbsent', { name: h.name, when }) };
+      }
       const event = {
         id: nextId(data.events, 'e'), helperId: h.id, date: date ?? todayIST(), type,
         qty: type === 'visit' ? (qty ?? 1) : (qty ?? null), amount: amount ?? null, raw: raw ?? ''
@@ -115,7 +128,7 @@ export function buildServer() {
       data.events.push(event);
       data.lastAdded = { kind: 'event', id: event.id };
       save(data);
-      return { event, helperName: h.name, say: say(lang, type, { name: h.name, qty: event.qty, unit: h.unit, amount }) };
+      return { event, helperName: h.name, say: say(lang, type, { name: h.name, qty: event.qty, unit: h.unit, amount, when }) };
     });
 
   // 4. get_bill --------------------------------------------------------------
@@ -151,10 +164,10 @@ export function buildServer() {
 
   // 6. log_purchase ----------------------------------------------------------
   tool('log_purchase', 'Log a purchase',
-    'Logs a sabzi/grocery purchase (price is rupees PER unit) and returns a price alert.',
+    'Logs a vegetable/grocery purchase (price is rupees PER unit) and returns a price alert.',
     {
       item: z.string().min(1), vendor: z.string().optional(), price: z.number().positive(),
-      unit: z.string().min(1), qty: z.number().positive().optional(), date: DateStr, raw: z.string().optional()
+      unit: z.string().min(1), qty: z.number().positive().optional(), date: DateStr, today: DateStr, raw: z.string().optional()
     },
     ({ item, vendor, price, unit, qty, date, raw }, lang) => {
       const data = load();
@@ -184,25 +197,57 @@ export function buildServer() {
     });
 
   // 8. undo_last -------------------------------------------------------------
-  tool('undo_last', 'Undo the last entry',
-    'Removes the newest event or purchase.',
-    {},
-    (_args, lang) => {
+  tool('undo_last', 'Undo an entry',
+    'Removes the newest event, purchase or added helper — or a specific one when its id is given.',
+    { id: z.string().optional(), kind: z.enum(['event', 'purchase', 'helper']).optional() },
+    ({ id: wantedId, kind: wantedKind }, lang) => {
       const data = load();
-      let { kind, id } = data.lastAdded ?? {};
-      if (!kind) { // no marker (e.g. seeded file): newest by date, events win ties
+      let { kind, id } = wantedId ? { kind: wantedKind, id: wantedId } : (data.lastAdded ?? {});
+      if (!kind && !id) { // no marker (e.g. seeded file): newest by date, events win ties
         const e = [...data.events].sort((a, b) => a.date.localeCompare(b.date)).at(-1);
         const p = [...data.purchases].sort((a, b) => a.date.localeCompare(b.date)).at(-1);
         if (e && (!p || e.date >= p.date)) ({ kind, id } = { kind: 'event', id: e.id });
         else if (p) ({ kind, id } = { kind: 'purchase', id: p.id });
       }
-      const list = kind === 'purchase' ? data.purchases : data.events;
+      if (!kind) kind = data.events.some((x) => x.id === id) ? 'event' : data.purchases.some((x) => x.id === id) ? 'purchase' : 'helper';
+      const list = { event: data.events, purchase: data.purchases, helper: data.helpers }[kind];
       const i = list.findIndex((x) => x.id === id);
       if (i < 0) throw new UserError('Nothing to undo');
       const [removed] = list.splice(i, 1);
-      delete data.lastAdded; // one-step undo
+      if (kind === 'helper') data.events = data.events.filter((e) => e.helperId !== removed.id);
+      if (data.lastAdded?.id === id) delete data.lastAdded;
       save(data);
-      return { removed, say: say(lang, 'undo') };
+      return { removed, kind, say: kind === 'helper' ? `Done, removed ${removed.name}.` : say(lang, 'undo') };
+    });
+
+  // 9. ask -------------------------------------------------------------------
+  // Anything `understand` can't map to a tool: Gemini answers with the whole ledger as context.
+  tool('ask', 'Ask anything',
+    'Answers a free-form question about the household ledger (or a general question) in 1-3 spoken sentences.',
+    { question: z.string().min(1), date: DateStr, previous: z.string().optional() },
+    async ({ question, date, previous }, lang) => {
+      const data = load();
+      const today = date ?? todayIST();
+      const month = today.slice(0, 7);
+      const context = {
+        today,
+        previous: previous || undefined, // Hisaab's last reply, when the user is answering its question
+        helpers: data.helpers,
+        thisMonthBills: data.helpers.map((h) =>
+          computeBill(h, data.events.filter((e) => e.helperId === h.id), month, today)),
+        events: data.events.slice(-200),
+        purchases: data.purchases.slice(-200),
+        priceSummary: [...new Set(data.purchases.map((p) => p.item))].map((item) => priceReport(data.purchases, item))
+      };
+      const r = await answerQuestion(question, context);
+      const sayLine = r.answer ?? (r.reason === 'no-key'
+        ? "I can log entries and make bills, but to answer questions like that I need a Gemini key. Add GEMINI_API_KEY to the .env file."
+        : /429|quota|resting/i.test(r.reason ?? '')
+          ? "I've used up today's free answers for open questions. I can still log helpers and groceries and work out bills."
+          : /timed out/i.test(r.reason ?? '')
+            ? 'That took too long to think about. Could you ask me once more?'
+            : say(lang, 'clarify'));
+      return { answer: r.answer, source: r.source, say: sayLine };
     });
 
   return server;

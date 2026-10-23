@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { askLLM, DEFAULT_MODEL, stripFences } from '../src/llm.js';
+import { askLLM, DEFAULT_MODEL, MODELS, stripFences, _resetModels } from '../src/llm.js';
 
 const KEY_VARS = ['GEMINI_API_KEY', 'GOOGLE_API_KEY', 'GOOGLE_GENERATIVE_AI_API_KEY'];
 
@@ -76,14 +76,39 @@ test('askLLM reports the 8 second timeout', async () => {
 
 test('askLLM surfaces HTTP errors with the model and status', async () => {
   clearKeys();
+  _resetModels();
   process.env.GEMINI_API_KEY = 'test-key';
   try {
     await assert.rejects(
-      () => withFetch(async () => ({ ok: false, status: 429, text: async () => 'quota exceeded' }), () => askLLM('hi')),
-      /returned 429: quota exceeded/
+      () => withFetch(async () => ({ ok: false, status: 500, text: async () => 'server error' }), () => askLLM('hi')),
+      /returned 500: server error/
     );
   } finally {
     clearKeys();
+  }
+});
+
+test('free tier: Flash-Lite first; out of quota (429) -> next free model, then the tired one is skipped', async () => {
+  clearKeys();
+  _resetModels();
+  process.env.GEMINI_API_KEY = 'test-key';
+  const urls = [];
+  try {
+    assert.equal(MODELS[0], 'gemini-3.8-flash-lite');
+    const fake = async (url) => {
+      urls.push(url);
+      return url.includes('flash-lite') ? { ok: false, status: 429, text: async () => 'quota exceeded' } : reply('{"ok":1}');
+    };
+    assert.equal(await withFetch(fake, () => askLLM('hi')), '{"ok":1}');
+    assert.equal(await withFetch(fake, () => askLLM('again')), '{"ok":1}');
+    assert.equal(urls.filter((u) => u.includes('flash-lite')).length, 1, 'tired model is not asked again');
+    await assert.rejects(
+      () => withFetch(async () => ({ ok: false, status: 429, text: async () => 'quota exceeded' }), () => askLLM('hi')),
+      /429/
+    );
+  } finally {
+    clearKeys();
+    _resetModels();
   }
 });
 

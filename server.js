@@ -2,10 +2,15 @@ import 'dotenv/config';
 import express from 'express';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { buildServer } from './src/mcp.js';
+import { ttsRoute } from './src/tts.js';
 
 const app = express();
 app.use(express.json());
-app.use(express.static('public'));
+// no-store: browsers always fetch the latest page files (no stale CSS while we edit).
+app.use(express.static('public', { etag: false, lastModified: false, setHeaders: (res) => res.set('Cache-Control', 'no-store') }));
+
+// Hisaab's spoken voice (Gemini TTS, free tier). The page falls back to the browser voice on any error.
+app.post('/tts', ttsRoute);
 
 // Stateless MCP: a fresh server + transport for every request.
 app.post('/mcp', async (req, res) => {

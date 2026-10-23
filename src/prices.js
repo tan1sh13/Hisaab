@@ -1,4 +1,4 @@
-// Price memory: is today's sabzi price normal, and where is it cheapest?
+// Price memory: is today's vegetable price normal, and where is it cheapest?
 // Baseline is the MEDIAN of past per-unit prices (one crazy vendor cannot move it).
 // Alert rules: > +20% of median = high, < -15% = low, otherwise normal.
 

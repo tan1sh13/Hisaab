@@ -2,12 +2,14 @@
   "helpers": [
     {
       "id": "shanti",
-      "name": "Shanti didi",
+      "name": "Shanti",
       "aliases": [
         "shanti",
+        "shanthi",
+        "shanty",
         "maid",
-        "bai",
-        "didi"
+        "housemaid",
+        "cleaner"
       ],
       "role": "maid",
       "rateType": "monthly",
@@ -18,11 +20,13 @@
     },
     {
       "id": "lakshmi",
-      "name": "Lakshmi akka",
+      "name": "Lakshmi",
       "aliases": [
         "lakshmi",
+        "laxmi",
+        "lakshmy",
         "cook",
-        "akka"
+        "chef"
       ],
       "role": "cook",
       "rateType": "monthly",
@@ -33,12 +37,13 @@
     },
     {
       "id": "raju",
-      "name": "Raju doodhwala",
+      "name": "Raju",
       "aliases": [
-        "doodhwala",
-        "milkman",
         "raju",
-        "paalkaaran"
+        "raj",
+        "milkman",
+        "milk man",
+        "milk guy"
       ],
       "role": "milk",
       "rateType": "per_unit",
@@ -49,12 +54,13 @@
     },
     {
       "id": "ganesh",
-      "name": "Ganesh paperwala",
+      "name": "Ganesh",
       "aliases": [
-        "paperwala",
         "ganesh",
         "newspaper",
-        "paperwale"
+        "newspaper boy",
+        "paper boy",
+        "paperboy"
       ],
       "role": "newspaper",
       "rateType": "monthly",
@@ -72,7 +78,7 @@
       "type": "absent",
       "qty": null,
       "amount": null,
-      "raw": "Shanti didi aaj nahi aayi"
+      "raw": "Shanti didn't come today"
     },
     {
       "id": "e2",
@@ -81,7 +87,7 @@
       "type": "extra",
       "qty": 0.5,
       "amount": null,
-      "raw": "Doodhwala ne aaj aadha litre extra diya"
+      "raw": "Raju gave 0.5 litre extra"
     },
     {
       "id": "e3",
@@ -90,7 +96,7 @@
       "type": "advance",
       "qty": null,
       "amount": 500,
-      "raw": "Cook ko 500 advance diya"
+      "raw": "Gave Lakshmi 500 rupees advance"
     },
     {
       "id": "e4",
@@ -99,7 +105,7 @@
       "type": "absent",
       "qty": null,
       "amount": null,
-      "raw": "Shanti didi aaj nahi aayi"
+      "raw": "Shanti didn't come today"
     },
     {
       "id": "e5",
@@ -108,7 +114,7 @@
       "type": "absent",
       "qty": null,
       "amount": null,
-      "raw": "Doodhwala aaj nahi aaya"
+      "raw": "Raju didn't come today"
     },
     {
       "id": "e6",
@@ -117,7 +123,7 @@
       "type": "extra",
       "qty": 0.5,
       "amount": null,
-      "raw": "Doodhwala ne aaj aadha litre extra diya"
+      "raw": "Raju gave 0.5 litre extra"
     },
     {
       "id": "e7",
@@ -126,49 +132,49 @@
       "type": "absent",
       "qty": null,
       "amount": null,
-      "raw": "Maid didn't come today"
+      "raw": "Shanti didn't come today"
     }
   ],
   "purchases": [
     {
       "id": "p1",
       "item": "tomato",
-      "vendor": "corner bhaiya",
+      "vendor": "corner shop",
       "price": 30,
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-10",
-      "raw": "Tomato 30 rupay kilo, corner wale bhaiya se"
+      "raw": "Tomato 30 rupees a kg from the corner shop"
     },
     {
       "id": "p2",
       "item": "onion",
-      "vendor": "corner bhaiya",
+      "vendor": "corner shop",
       "price": 38,
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-10",
-      "raw": "Pyaaz 38 rupay kilo, corner wale bhaiya se"
+      "raw": "Onion 38 rupees a kg from the corner shop"
     },
     {
       "id": "p3",
       "item": "potato",
-      "vendor": "corner bhaiya",
+      "vendor": "corner shop",
       "price": 30,
       "unit": "kg",
       "qty": 2,
       "date": "2026-09-10",
-      "raw": "2 kilo aloo 60 rupay corner wale bhaiya se"
+      "raw": "Potato 30 rupees a kg from the corner shop"
     },
     {
       "id": "p4",
-      "item": "bhindi",
-      "vendor": "corner bhaiya",
+      "item": "okra",
+      "vendor": "corner shop",
       "price": 46,
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-10",
-      "raw": "Bhindi 46 rupay kilo, corner wale bhaiya se"
+      "raw": "Okra 46 rupees a kg from the corner shop"
     },
     {
       "id": "p5",
@@ -178,7 +184,7 @@
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-14",
-      "raw": "Tomato 27 rupay kilo, station market se"
+      "raw": "Tomato 27 rupees a kg from the station market"
     },
     {
       "id": "p6",
@@ -188,7 +194,7 @@
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-14",
-      "raw": "Pyaaz 35 rupay kilo, station market se"
+      "raw": "Onion 35 rupees a kg from the station market"
     },
     {
       "id": "p7",
@@ -198,97 +204,97 @@
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-14",
-      "raw": "Aloo 26 rupay kilo, station market se"
+      "raw": "Potato 26 rupees a kg from the station market"
     },
     {
       "id": "p8",
-      "item": "bhindi",
+      "item": "okra",
       "vendor": "station market",
       "price": 44,
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-14",
-      "raw": "Bhindi 44 rupay kilo, station market se"
+      "raw": "Okra 44 rupees a kg from the station market"
     },
     {
       "id": "p9",
       "item": "tomato",
-      "vendor": "thela uncle",
+      "vendor": "vegetable cart",
       "price": 31,
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-17",
-      "raw": "Tomato 31 rupay kilo, thela uncle se"
+      "raw": "Tomato 31 rupees a kg from the vegetable cart"
     },
     {
       "id": "p10",
       "item": "onion",
-      "vendor": "thela uncle",
+      "vendor": "vegetable cart",
       "price": 37,
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-17",
-      "raw": "Pyaaz 37 rupay kilo, thela uncle se"
+      "raw": "Onion 37 rupees a kg from the vegetable cart"
     },
     {
       "id": "p11",
       "item": "potato",
-      "vendor": "thela uncle",
+      "vendor": "vegetable cart",
       "price": 27,
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-17",
-      "raw": "Aloo 27 rupay kilo, thela uncle se"
+      "raw": "Potato 27 rupees a kg from the vegetable cart"
     },
     {
       "id": "p12",
-      "item": "bhindi",
-      "vendor": "thela uncle",
+      "item": "okra",
+      "vendor": "vegetable cart",
       "price": 47,
       "unit": "kg",
       "qty": 2,
       "date": "2026-09-17",
-      "raw": "2 kilo bhindi 94 rupay thela uncle se"
+      "raw": "Okra 47 rupees a kg from the vegetable cart"
     },
     {
       "id": "p13",
       "item": "tomato",
-      "vendor": "corner bhaiya",
+      "vendor": "corner shop",
       "price": 32,
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-21",
-      "raw": "Tomato 32 rupay kilo, corner wale bhaiya se"
+      "raw": "Tomato 32 rupees a kg from the corner shop"
     },
     {
       "id": "p14",
       "item": "onion",
-      "vendor": "corner bhaiya",
+      "vendor": "corner shop",
       "price": 40,
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-21",
-      "raw": "Pyaaz 40 rupay kilo, corner wale bhaiya se"
+      "raw": "Onion 40 rupees a kg from the corner shop"
     },
     {
       "id": "p15",
       "item": "potato",
-      "vendor": "corner bhaiya",
+      "vendor": "corner shop",
       "price": 30,
       "unit": "kg",
       "qty": 2,
       "date": "2026-09-21",
-      "raw": "2 kilo aloo 60 rupay corner wale bhaiya se"
+      "raw": "Potato 30 rupees a kg from the corner shop"
     },
     {
       "id": "p16",
-      "item": "bhindi",
-      "vendor": "corner bhaiya",
+      "item": "okra",
+      "vendor": "corner shop",
       "price": 48,
       "unit": "kg",
       "qty": 2,
       "date": "2026-09-21",
-      "raw": "2 kilo bhindi 96 rupay corner wale bhaiya se"
+      "raw": "Okra 48 rupees a kg from the corner shop"
     },
     {
       "id": "p17",
@@ -298,7 +304,7 @@
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-24",
-      "raw": "Tomato 26 rupay kilo, station market se"
+      "raw": "Tomato 26 rupees a kg from the station market"
     },
     {
       "id": "p18",
@@ -308,7 +314,7 @@
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-24",
-      "raw": "Pyaaz 36 rupay kilo, station market se"
+      "raw": "Onion 36 rupees a kg from the station market"
     },
     {
       "id": "p19",
@@ -318,97 +324,97 @@
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-24",
-      "raw": "Aloo 27 rupay kilo, station market se"
+      "raw": "Potato 27 rupees a kg from the station market"
     },
     {
       "id": "p20",
-      "item": "bhindi",
+      "item": "okra",
       "vendor": "station market",
       "price": 41,
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-24",
-      "raw": "Bhindi 41 rupay kilo, station market se"
+      "raw": "Okra 41 rupees a kg from the station market"
     },
     {
       "id": "p21",
       "item": "tomato",
-      "vendor": "thela uncle",
+      "vendor": "vegetable cart",
       "price": 31,
       "unit": "kg",
       "qty": 2,
       "date": "2026-09-28",
-      "raw": "2 kilo tomato 62 rupay thela uncle se"
+      "raw": "Tomato 31 rupees a kg from the vegetable cart"
     },
     {
       "id": "p22",
       "item": "onion",
-      "vendor": "thela uncle",
+      "vendor": "vegetable cart",
       "price": 38,
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-28",
-      "raw": "Pyaaz 38 rupay kilo, thela uncle se"
+      "raw": "Onion 38 rupees a kg from the vegetable cart"
     },
     {
       "id": "p23",
       "item": "potato",
-      "vendor": "thela uncle",
+      "vendor": "vegetable cart",
       "price": 26,
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-28",
-      "raw": "Aloo 26 rupay kilo, thela uncle se"
+      "raw": "Potato 26 rupees a kg from the vegetable cart"
     },
     {
       "id": "p24",
-      "item": "bhindi",
-      "vendor": "thela uncle",
+      "item": "okra",
+      "vendor": "vegetable cart",
       "price": 43,
       "unit": "kg",
       "qty": 1,
       "date": "2026-09-28",
-      "raw": "Bhindi 43 rupay kilo, thela uncle se"
+      "raw": "Okra 43 rupees a kg from the vegetable cart"
     },
     {
       "id": "p25",
       "item": "tomato",
-      "vendor": "corner bhaiya",
+      "vendor": "corner shop",
       "price": 29,
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-01",
-      "raw": "Tomato 29 rupay kilo, corner wale bhaiya se"
+      "raw": "Tomato 29 rupees a kg from the corner shop"
     },
     {
       "id": "p26",
       "item": "onion",
-      "vendor": "corner bhaiya",
+      "vendor": "corner shop",
       "price": 39,
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-01",
-      "raw": "Pyaaz 39 rupay kilo, corner wale bhaiya se"
+      "raw": "Onion 39 rupees a kg from the corner shop"
     },
     {
       "id": "p27",
       "item": "potato",
-      "vendor": "corner bhaiya",
+      "vendor": "corner shop",
       "price": 30,
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-01",
-      "raw": "Aloo 30 rupay kilo, corner wale bhaiya se"
+      "raw": "Potato 30 rupees a kg from the corner shop"
     },
     {
       "id": "p28",
-      "item": "bhindi",
-      "vendor": "corner bhaiya",
+      "item": "okra",
+      "vendor": "corner shop",
       "price": 49,
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-01",
-      "raw": "Bhindi 49 rupay kilo, corner wale bhaiya se"
+      "raw": "Okra 49 rupees a kg from the corner shop"
     },
     {
       "id": "p29",
@@ -418,7 +424,7 @@
       "unit": "kg",
       "qty": 2,
       "date": "2026-10-05",
-      "raw": "2 kilo tomato 56 rupay station market se"
+      "raw": "Tomato 28 rupees a kg from the station market"
     },
     {
       "id": "p30",
@@ -428,7 +434,7 @@
       "unit": "kg",
       "qty": 2,
       "date": "2026-10-05",
-      "raw": "2 kilo pyaaz 70 rupay station market se"
+      "raw": "Onion 35 rupees a kg from the station market"
     },
     {
       "id": "p31",
@@ -438,97 +444,97 @@
       "unit": "kg",
       "qty": 2,
       "date": "2026-10-05",
-      "raw": "2 kilo aloo 50 rupay station market se"
+      "raw": "Potato 25 rupees a kg from the station market"
     },
     {
       "id": "p32",
-      "item": "bhindi",
+      "item": "okra",
       "vendor": "station market",
       "price": 42,
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-05",
-      "raw": "Bhindi 42 rupay kilo, station market se"
+      "raw": "Okra 42 rupees a kg from the station market"
     },
     {
       "id": "p33",
       "item": "tomato",
-      "vendor": "thela uncle",
+      "vendor": "vegetable cart",
       "price": 31,
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-08",
-      "raw": "Tomato 31 rupay kilo, thela uncle se"
+      "raw": "Tomato 31 rupees a kg from the vegetable cart"
     },
     {
       "id": "p34",
       "item": "onion",
-      "vendor": "thela uncle",
+      "vendor": "vegetable cart",
       "price": 38,
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-08",
-      "raw": "Pyaaz 38 rupay kilo, thela uncle se"
+      "raw": "Onion 38 rupees a kg from the vegetable cart"
     },
     {
       "id": "p35",
       "item": "potato",
-      "vendor": "thela uncle",
+      "vendor": "vegetable cart",
       "price": 26,
       "unit": "kg",
       "qty": 2,
       "date": "2026-10-08",
-      "raw": "2 kilo aloo 52 rupay thela uncle se"
+      "raw": "Potato 26 rupees a kg from the vegetable cart"
     },
     {
       "id": "p36",
-      "item": "bhindi",
-      "vendor": "thela uncle",
+      "item": "okra",
+      "vendor": "vegetable cart",
       "price": 44,
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-08",
-      "raw": "Bhindi 44 rupay kilo, thela uncle se"
+      "raw": "Okra 44 rupees a kg from the vegetable cart"
     },
     {
       "id": "p37",
       "item": "tomato",
-      "vendor": "corner bhaiya",
+      "vendor": "corner shop",
       "price": 29,
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-12",
-      "raw": "Tomato 29 rupay kilo, corner wale bhaiya se"
+      "raw": "Tomato 29 rupees a kg from the corner shop"
     },
     {
       "id": "p38",
       "item": "onion",
-      "vendor": "corner bhaiya",
+      "vendor": "corner shop",
       "price": 37,
       "unit": "kg",
       "qty": 2,
       "date": "2026-10-12",
-      "raw": "2 kilo pyaaz 74 rupay corner wale bhaiya se"
+      "raw": "Onion 37 rupees a kg from the corner shop"
     },
     {
       "id": "p39",
       "item": "potato",
-      "vendor": "corner bhaiya",
+      "vendor": "corner shop",
       "price": 27,
       "unit": "kg",
       "qty": 2,
       "date": "2026-10-12",
-      "raw": "2 kilo aloo 54 rupay corner wale bhaiya se"
+      "raw": "Potato 27 rupees a kg from the corner shop"
     },
     {
       "id": "p40",
-      "item": "bhindi",
-      "vendor": "corner bhaiya",
+      "item": "okra",
+      "vendor": "corner shop",
       "price": 46,
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-12",
-      "raw": "Bhindi 46 rupay kilo, corner wale bhaiya se"
+      "raw": "Okra 46 rupees a kg from the corner shop"
     },
     {
       "id": "p41",
@@ -538,7 +544,7 @@
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-15",
-      "raw": "Tomato 27 rupay kilo, station market se"
+      "raw": "Tomato 27 rupees a kg from the station market"
     },
     {
       "id": "p42",
@@ -548,7 +554,7 @@
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-15",
-      "raw": "Pyaaz 36 rupay kilo, station market se"
+      "raw": "Onion 36 rupees a kg from the station market"
     },
     {
       "id": "p43",
@@ -558,97 +564,97 @@
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-15",
-      "raw": "Aloo 27 rupay kilo, station market se"
+      "raw": "Potato 27 rupees a kg from the station market"
     },
     {
       "id": "p44",
-      "item": "bhindi",
+      "item": "okra",
       "vendor": "station market",
       "price": 44,
       "unit": "kg",
       "qty": 2,
       "date": "2026-10-15",
-      "raw": "2 kilo bhindi 88 rupay station market se"
+      "raw": "Okra 44 rupees a kg from the station market"
     },
     {
       "id": "p45",
       "item": "tomato",
-      "vendor": "thela uncle",
+      "vendor": "vegetable cart",
       "price": 30,
       "unit": "kg",
       "qty": 2,
       "date": "2026-10-19",
-      "raw": "2 kilo tomato 60 rupay thela uncle se"
+      "raw": "Tomato 30 rupees a kg from the vegetable cart"
     },
     {
       "id": "p46",
       "item": "onion",
-      "vendor": "thela uncle",
+      "vendor": "vegetable cart",
       "price": 39,
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-19",
-      "raw": "Pyaaz 39 rupay kilo, thela uncle se"
+      "raw": "Onion 39 rupees a kg from the vegetable cart"
     },
     {
       "id": "p47",
       "item": "potato",
-      "vendor": "thela uncle",
+      "vendor": "vegetable cart",
       "price": 28,
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-19",
-      "raw": "Aloo 28 rupay kilo, thela uncle se"
+      "raw": "Potato 28 rupees a kg from the vegetable cart"
     },
     {
       "id": "p48",
-      "item": "bhindi",
-      "vendor": "thela uncle",
+      "item": "okra",
+      "vendor": "vegetable cart",
       "price": 48,
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-19",
-      "raw": "Bhindi 48 rupay kilo, thela uncle se"
+      "raw": "Okra 48 rupees a kg from the vegetable cart"
     },
     {
       "id": "p49",
       "item": "tomato",
-      "vendor": "corner bhaiya",
+      "vendor": "corner shop",
       "price": 29,
       "unit": "kg",
       "qty": 2,
       "date": "2026-10-22",
-      "raw": "2 kilo tomato 58 rupay corner wale bhaiya se"
+      "raw": "Tomato 29 rupees a kg from the corner shop"
     },
     {
       "id": "p50",
       "item": "onion",
-      "vendor": "corner bhaiya",
+      "vendor": "corner shop",
       "price": 39,
       "unit": "kg",
       "qty": 2,
       "date": "2026-10-22",
-      "raw": "2 kilo pyaaz 78 rupay corner wale bhaiya se"
+      "raw": "Onion 39 rupees a kg from the corner shop"
     },
     {
       "id": "p51",
       "item": "potato",
-      "vendor": "corner bhaiya",
+      "vendor": "corner shop",
       "price": 27,
       "unit": "kg",
       "qty": 2,
       "date": "2026-10-22",
-      "raw": "2 kilo aloo 54 rupay corner wale bhaiya se"
+      "raw": "Potato 27 rupees a kg from the corner shop"
     },
     {
       "id": "p52",
-      "item": "bhindi",
-      "vendor": "corner bhaiya",
+      "item": "okra",
+      "vendor": "corner shop",
       "price": 48,
       "unit": "kg",
       "qty": 2,
       "date": "2026-10-22",
-      "raw": "2 kilo bhindi 96 rupay corner wale bhaiya se"
+      "raw": "Okra 48 rupees a kg from the corner shop"
     },
     {
       "id": "p53",
@@ -658,7 +664,7 @@
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-26",
-      "raw": "Tomato 26 rupay kilo, station market se"
+      "raw": "Tomato 26 rupees a kg from the station market"
     },
     {
       "id": "p54",
@@ -668,7 +674,7 @@
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-26",
-      "raw": "Pyaaz 35 rupay kilo, station market se"
+      "raw": "Onion 35 rupees a kg from the station market"
     },
     {
       "id": "p55",
@@ -678,17 +684,17 @@
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-26",
-      "raw": "Aloo 25 rupay kilo, station market se"
+      "raw": "Potato 25 rupees a kg from the station market"
     },
     {
       "id": "p56",
-      "item": "bhindi",
+      "item": "okra",
       "vendor": "station market",
       "price": 42,
       "unit": "kg",
       "qty": 1,
       "date": "2026-10-26",
-      "raw": "Bhindi 42 rupay kilo, station market se"
+      "raw": "Okra 42 rupees a kg from the station market"
     }
   ]
 }

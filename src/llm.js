@@ -3,7 +3,13 @@
 // - JSON response mode, plus fence stripping because models still wrap JSON in ```json
 // - throws on every failure; understand.js turns a throw into the regex fallback
 
-export const DEFAULT_MODEL = process.env.GEMINI_MODEL || 'gemini-3.8-flash';
+// Free tier: Flash-Lite allows ~500 requests/day, Flash only ~20/day. So Flash-Lite goes first,
+// and when one model is out of quota (429) we use the next one. All of them are free-tier models.
+export const DEFAULT_MODEL = 'gemini-3.8-flash-lite';
+export const MODELS = [DEFAULT_MODEL, process.env.GEMINI_MODEL, 'gemini-3.8-flash']
+  .filter((m, i, all) => m && all.indexOf(m) === i);
+const resting = new Map(); // model -> time it may be used again (after a 429)
+const REST_MS = 30 * 60 * 1000;
 export const TIMEOUT_MS = 8000;
 
 const API = 'https://generativelanguage.googleapis.com/v1beta/models';
@@ -27,7 +33,27 @@ export function stripFences(text) {
   return out.trim();
 }
 
-export async function askLLM(prompt, { model = DEFAULT_MODEL, timeoutMs = TIMEOUT_MS } = {}) {
+// Tries each free model in turn; a model that says "quota exhausted" (429) is skipped for 30 minutes.
+export async function askLLM(prompt, options = {}) {
+  if (options.model) return askModel(prompt, options);
+  const now = Date.now();
+  const ready = MODELS.filter((m) => (resting.get(m) ?? 0) <= now);
+  let lastError = new Error('All free Gemini models are resting after hitting their daily quota');
+  for (const model of ready.length ? ready : MODELS) {
+    try {
+      return await askModel(prompt, { ...options, model });
+    } catch (error) {
+      lastError = error;
+      if (error.status !== 429 && error.status !== 404) throw error;
+      resting.set(model, Date.now() + REST_MS);
+      console.warn(`[llm] ${model} is out of free quota (or unavailable); trying the next model`);
+    }
+  }
+  throw lastError;
+}
+export const _resetModels = () => resting.clear();
+
+async function askModel(prompt, { model = DEFAULT_MODEL, timeoutMs = TIMEOUT_MS, maxOutputTokens = 512, temperature = 0 } = {}) {
   if (process.env.HISAAB_LLM === 'off') throw new Error('LLM disabled by HISAAB_LLM=off');
 
   const key = apiKey();
@@ -44,8 +70,8 @@ export async function askLLM(prompt, { model = DEFAULT_MODEL, timeoutMs = TIMEOU
       body: JSON.stringify({
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         generationConfig: {
-          temperature: 0,
-          maxOutputTokens: 512,
+          temperature,
+          maxOutputTokens,
           responseMimeType: 'application/json'
         }
       })
@@ -59,7 +85,7 @@ export async function askLLM(prompt, { model = DEFAULT_MODEL, timeoutMs = TIMEOU
 
   if (!res.ok) {
     const body = await res.text().catch(() => '');
-    throw new Error(`Gemini ${model} returned ${res.status}: ${body.slice(0, 200)}`);
+    throw Object.assign(new Error(`Gemini ${model} returned ${res.status}: ${body.slice(0, 200)}`), { status: res.status });
   }
 
   const json = await res.json().catch(() => null);
