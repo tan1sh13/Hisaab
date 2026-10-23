@@ -134,5 +134,3 @@ MIT, see [LICENSE](LICENSE).
 ## Team
 
 Dharmik, Ritu, Tanish and MBS, built for the Build, Ship, Shape: Amazon Developer Hackathon (Alexa+ track).
-
-Problems we hit while building, with fixes: [docs/friction-log.md](docs/friction-log.md).
