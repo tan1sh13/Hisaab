@@ -1,6 +1,8 @@
-# Hisaab
+# HiSaab
 
-Hisaab is an Alexa+ style voice assistant that keeps your home's money memory. Say **"Hey San"** and tell it who came,
+<img src="public/brand/logo.png" alt="HiSaab" height="64">
+
+HiSaab is an Alexa+ style voice assistant that keeps your home's money memory. Say **"Hey San"** and tell it who came,
 who didn't, what you paid and what you bought — at month-end it knows exactly what you owe, and it warns you when
 the vegetable seller is overcharging you.
 
